@@ -746,6 +746,56 @@ shared   → не знает о доменных слоях
 
 </details>
 
+## Рефакторинг без изменения поведения
+
+Если задача заключается в code-style / FSD / structural refactoring, она должна быть **behaviour-preserving**.
+
+Без отдельной причины и отдельной задачи нельзя одновременно менять:
+
+- WebSocket flow
+- TTL и время жизни событий
+- batching
+- stale-event protection
+- API-контракты
+- Zustand state model
+- MapLibre / deck.gl rendering
+- геометрию overlay
+- CSS-значения, влияющие на внешний вид
+- пользовательские сценарии
+
+Рефакторинг стиля не должен становиться скрытой функциональной переработкой.
+
+Если функциональное изменение необходимо, оно должно быть явно выделено и обосновано.
+
+---
+
+## Imperative lifecycle: MapLibre / deck.gl / listeners
+
+Для imperative-интеграций должен существовать понятный owner жизненного цикла.
+
+Всегда должно быть очевидно:
+
+- кто создаёт объект / overlay / listener
+- кто обновляет его
+- кто вызывает `setProps`
+- кто запускает `requestAnimationFrame`
+- кто останавливает `requestAnimationFrame`
+- кто выполняет cleanup
+- кто удаляет source / layer / image / listener
+
+Не допускаются несколько конкурирующих owner'ов одного lifecycle.
+
+Для MapLibre / deck.gl необходимо отдельно проверять:
+
+- source / layer / image не создаются повторно без необходимости
+- overlay не пересоздаётся при каждом render
+- cleanup симметричен initialization
+- React state не обновляется каждый кадр без реальной необходимости
+- `requestAnimationFrame` не живёт после unmount / отключения режима
+- imperative API не используется как скрытый второй store
+
+---
+
 ## Gitflow
 
 ### Conventional Commits
