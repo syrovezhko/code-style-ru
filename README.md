@@ -501,6 +501,22 @@ useMapStore
 useRulerStore
 ```
 
+### Zustand store должен называться Store
+
+Если сущность является Zustand store, это должно быть явно отражено в имени.
+
+```ts
+// ПЛОХАЯ ПРАКТИКА!!!
+useMapLibreCommentCreateState;
+
+// Хорошая практика
+useMapLibreCommentCreateStore;
+```
+
+Имя не должно маскировать store под обычный state или helper.
+
+---
+
 ### Переменные
 
 > - boolean → is / has / can
@@ -514,6 +530,45 @@ canEdit
 fetchUsers
 resetState
 ```
+
+### Boolean naming — состояние, setter — действие
+
+Для boolean используются семантические префиксы:
+
+- `is`
+- `are`
+- `has`
+- `can`
+
+```ts
+// ПЛОХАЯ ПРАКТИКА!!!
+showComments;
+setShowComments;
+
+// Хорошая практика
+areCommentsVisible;
+setCommentsVisible;
+```
+
+Setter должен называться как действие, а не повторять имя boolean-переменной механически.
+
+### Нейминг ассетов
+
+Названия ассетов должны отражать смысл и не содержать неочевидных сокращений.
+
+```text
+ ПЛОХАЯ ПРАКТИКА!!!
+commentCursorSat.svg
+commentCursorSchem.svg
+
+ Хорошая практика
+commentCursorHybrid.svg
+commentCursorScheme.svg
+```
+
+Используются только общепринятые сокращения. Если сокращение требует расшифровки — пишется полное слово.
+
+---
 
 </details>
 
